@@ -2,13 +2,23 @@
 
 A Git pre-push hook utility that shows repository information and asks for confirmation before proceeding with push.
 
-## Features
+## Example
 
-- Displays remote repository information
-- Shows current branch
-- Indicates total number of commits
-- Shows any uncommitted changes
-- Asks for confirmation before pushing
+```bash
+=== Git Push Information ===
+
+Remote Repositories:
+origin  https://github.com/situ2001/git-push-confirm.git (fetch)
+origin  https://github.com/situ2001/git-push-confirm.git (push)
+
+Current Branch: main
+
+Target Remote Branch: origin/main
+
+==========================
+
+Do you want to proceed with push? (y/N): 
+```
 
 ## Installation
 

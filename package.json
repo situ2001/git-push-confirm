@@ -1,6 +1,6 @@
 {
   "name": "git-push-confirm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A git pre-push hook utility that shows repository information and asks for confirmation",
   "main": "pre-push.js",
   "type": "module",
