@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { $, question } from 'zx';
+import pc from 'picocolors';
 
 // Silence zx's default output
 $.verbose = false;
@@ -11,37 +12,64 @@ async function getGitInfo() {
     const branch = await $`git branch --show-current`;
     const status = await $`git status --porcelain`;
     const commitCount = await $`git log --oneline | wc -l`;
+    
+    // Get the configured push destination if available
+    let targetBranch = "";
+    try {
+      // Get the push destination for the current branch
+      const currentRemote = await $`git config --get branch.${branch.stdout.trim()}.remote`;
+      const remoteBranch = await $`git config --get branch.${branch.stdout.trim()}.merge`;
+      if (currentRemote.stdout.trim() && remoteBranch.stdout.trim()) {
+        // Convert refs/heads/main to just main
+        const branchName = remoteBranch.stdout.trim().replace("refs/heads/", "");
+        targetBranch = `${currentRemote.stdout.trim()}/${branchName}`;
+      }
+    } catch (e) {
+      // If there's an error, the branch might not have an upstream set
+      targetBranch = "";
+    }
 
     return {
       remote: remote.stdout.trim(),
       branch: branch.stdout.trim(),
       status: status.stdout.trim(),
-      commitCount: commitCount.stdout.trim()
+      commitCount: commitCount.stdout.trim(),
+      targetBranch
     };
   } catch (error) {
-    console.error('Error getting git information:',error.message);
+    console.error(pc.red('Error getting git information:'), error.message);
     process.exit(1);
   }
 }
 
 function displayGitInfo(info) {
-  console.log('\n=== Git Push Information ===');
-  console.log('\nRemote Repositories:');
-  console.log(info.remote);
-  console.log('\nCurrent Branch:',info.branch);
-  console.log('\nTotal Commits:',info.commitCount);
-
-  if (info.status) {
-    console.log('\nUncommitted Changes:');
-    console.log(info.status);
+  console.log(pc.bold('\n=== Git Push Information ==='));
+  
+  console.log(pc.cyan('\nRemote Repositories:'));
+  console.log(pc.red(info.remote));
+  
+  console.log(pc.cyan('\nCurrent Branch:'), pc.red(info.branch));
+  
+  if (info.targetBranch) {
+    console.log(pc.cyan('\nTarget Remote Branch:'), pc.red(info.targetBranch));
   } else {
-    console.log('\nNo uncommitted changes');
+    console.log(pc.cyan('\nTarget Remote Branch:'), pc.yellow('Not configured'));
   }
-  console.log('\n==========================\n');
+  
+  console.log(pc.cyan('\nTotal Commits:'), pc.yellow(info.commitCount));
+  
+  if (info.status) {
+    console.log(pc.cyan('\nUncommitted Changes:'));
+    console.log(pc.gray(info.status));
+  } else {
+    console.log(pc.cyan('\nUncommitted Changes:'), pc.green('None'));
+  }
+  
+  console.log(pc.bold('\n==========================\n'));
 }
 
 async function askForConfirmation() {
-  const answer = await question('Do you want to proceed with push? (y/N): ');
+  const answer = await question(pc.yellow('Do you want to proceed with push? ') + pc.gray('(y/') + pc.bold('N') + pc.gray('): '));
   return answer.toLowerCase() === 'y';
 }
 
@@ -51,7 +79,7 @@ async function main() {
 
   const confirmed = await askForConfirmation();
   if (!confirmed) {
-    console.log('Push cancelled by user');
+    console.log(pc.blue('Push cancelled by user'));
     process.exit(1);
   }
 }
