@@ -45,19 +45,19 @@ pnpm add -D git-push-confirm
 npm install husky --save-dev
 npx husky init
 
-echo "npx git-push-confirm" > .husky/pre-push
+echo "exec 0< /dev/tty && npx git-push-confirm" > .husky/pre-push
 
 # Using yarn
 yarn add husky --dev
 yarn husky init
 
-echo "yarn git-push-confirm" > .husky/pre-push
+echo "exec 0< /dev/tty && yarn git-push-confirm" > .husky/pre-push
 
 # Using pnpm
 pnpm add husky --save-dev
 pnpm husky init
 
-echo "pnpm dlx git-push-confirm" > .husky/pre-push
+echo "exec 0< /dev/tty && pnpm dlx git-push-confirm" > .husky/pre-push
 ```
 
 ## Usage
