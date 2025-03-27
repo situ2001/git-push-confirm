@@ -10,8 +10,6 @@ async function getGitInfo() {
   try {
     const remote = await $`git remote -v`;
     const branch = await $`git branch --show-current`;
-    const status = await $`git status --porcelain`;
-    const commitCount = await $`git log --oneline | wc -l`;
     
     // Get the configured push destination if available
     let targetBranch = "";
@@ -32,8 +30,6 @@ async function getGitInfo() {
     return {
       remote: remote.stdout.trim(),
       branch: branch.stdout.trim(),
-      status: status.stdout.trim(),
-      commitCount: commitCount.stdout.trim(),
       targetBranch
     };
   } catch (error) {
@@ -54,15 +50,6 @@ function displayGitInfo(info) {
     console.log(pc.cyan('\nTarget Remote Branch:'), pc.red(info.targetBranch));
   } else {
     console.log(pc.cyan('\nTarget Remote Branch:'), pc.yellow('Not configured'));
-  }
-  
-  console.log(pc.cyan('\nTotal Commits:'), pc.yellow(info.commitCount));
-  
-  if (info.status) {
-    console.log(pc.cyan('\nUncommitted Changes:'));
-    console.log(pc.gray(info.status));
-  } else {
-    console.log(pc.cyan('\nUncommitted Changes:'), pc.green('None'));
   }
   
   console.log(pc.bold('\n==========================\n'));
