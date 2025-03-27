@@ -1,12 +1,30 @@
 {
-  "name": "print-before-git-push",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "git-push-confirm",
+  "version": "0.0.1",
+  "description": "A git pre-push hook utility that shows repository information and asks for confirmation",
+  "main": "pre-push.js",
+  "type": "module",
+  "bin": {
+    "git-push-confirm": "./pre-push.js"
+  },
   "scripts": {
+    "prepare": "husky",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "git",
+    "hook",
+    "pre-push",
+    "confirm",
+    "husky"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "MIT",
+  "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "dependencies": {
+    "zx": "^8.4.1"
+  }
 }
