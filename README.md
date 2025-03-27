@@ -14,13 +14,13 @@ A Git pre-push hook utility that shows repository information and asks for confi
 
 ```bash
 # Using npm
-npm install git-push-confirm
+npm install -D git-push-confirm
 
 # Using yarn
-yarn add git-push-confirm
+yarn add -D git-push-confirm
 
 # Using pnpm
-pnpm add git-push-confirm
+pnpm add -D git-push-confirm
 ```
 
 ## Setup with Husky
