@@ -1,13 +1,19 @@
 {
   "name": "git-push-confirm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A git pre-push hook utility that shows repository information and asks for confirmation",
   "main": "pre-push.js",
   "type": "module",
   "bin": {
     "git-push-confirm": "./pre-push.js"
   },
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "git-push-confirm": "file:.",
+    "husky": "^9.1.7"
+  },
   "keywords": [
     "git",
     "hook",
