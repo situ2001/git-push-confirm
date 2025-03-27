@@ -39,39 +39,7 @@ async function getGitInfo() {
   }
 }
 
-// Read and process stdin from Git pre-push hook
-async function readPushRefsFromGitHook() {
-  if (process.stdin.isTTY) {
-    return [];
-  }
-
-  // Create an input stream
-  const rl = createInterface({
-    input: process.stdin,
-    terminal: false
-  });
-
-  const refs = [];
-
-  return new Promise(resolve => {
-    rl.on('line',(line) => {
-      if (line.trim() !== '') {
-        refs.push(line);
-      }
-    });
-
-    rl.once('close',() => {
-      resolve(refs);
-    });
-
-    // Add a timeout in case stdin doesn't close properly
-    setTimeout(() => {
-      rl.close();
-    },1000);
-  });
-}
-
-function displayGitInfo(info,pushRefs) {
+function displayGitInfo(info) {
   console.log(pc.bold('\n=== Git Push Information ==='));
 
   console.log(pc.cyan('\nRemote Repositories:'));
@@ -85,15 +53,6 @@ function displayGitInfo(info,pushRefs) {
     console.log(pc.cyan('\nTarget Remote Branch:'),pc.yellow('Not configured'));
   }
 
-  if (pushRefs.length > 0) {
-    console.log(pc.cyan('\nPush Details:'));
-    pushRefs.forEach(ref => {
-      console.log(pc.magenta(ref));
-    });
-  } else {
-    console.log(pc.cyan('\nPush Details:'),pc.yellow('No refs to push'));
-  }
-
   console.log(pc.bold('\n==========================\n'));
 }
 
@@ -103,12 +62,8 @@ async function askForConfirmation() {
 }
 
 async function main() {
-  // exec 0< /dev/tty
-  await $`exec 0< /dev/tty`;
-
-  const pushRefs = await readPushRefsFromGitHook();
   const gitInfo = await getGitInfo();
-  displayGitInfo(gitInfo,pushRefs);
+  displayGitInfo(gitInfo);
 
   const confirmed = await askForConfirmation();
   if (!confirmed) {
