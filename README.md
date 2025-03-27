@@ -25,7 +25,20 @@ pnpm add git-push-confirm
 
 ## Setup with Husky
 
-1. Install husky if you haven't already:
+1. Install this package to your project:
+
+```bash
+# Using npm
+npm install -D git-push-confirm
+
+# Using yarn
+yarn add -D git-push-confirm
+
+# Using pnpm
+pnpm add -D git-push-confirm
+```
+
+2. Install husky if you haven't already:
 
 ```bash
 # Using npm
@@ -45,12 +58,6 @@ pnpm add husky --save-dev
 pnpm husky init
 
 echo "pnpm dlx git-push-confirm" > .husky/pre-push
-```
-
-2. Create a pre-push hook:
-
-```bash
-npx husky add .husky/pre-push "npx git-push-confirm"
 ```
 
 ## Usage
