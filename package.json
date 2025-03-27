@@ -7,13 +7,7 @@
   "bin": {
     "git-push-confirm": "./pre-push.js"
   },
-  "scripts": {
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "git-push-confirm": "file:.",
-    "husky": "^9.1.7"
-  },
+  "scripts": {},
   "keywords": [
     "git",
     "hook",
