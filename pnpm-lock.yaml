@@ -14,17 +14,8 @@ importers:
       zx:
         specifier: ^8.4.1
         version: 8.4.1
-    devDependencies:
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
 
 packages:
-
-  husky@9.1.7:
-    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -35,8 +26,6 @@ packages:
     hasBin: true
 
 snapshots:
-
-  husky@9.1.7: {}
 
   picocolors@1.1.1: {}
 
